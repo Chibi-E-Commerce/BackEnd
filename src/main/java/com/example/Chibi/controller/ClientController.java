@@ -6,17 +6,18 @@ import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.service.ClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/cliente")
 public class ClientController {
 
-    private final ClientService clientService;
+    @Autowired
+    private ClientService clientService;
 
     @GetMapping("/list")
     public List<ClientResponse> getAll() {
