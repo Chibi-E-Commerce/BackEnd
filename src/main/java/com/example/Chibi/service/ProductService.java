@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public ProductModel insert(ProductDto productDto) {
         ProductModel productModel = new ProductModel();
