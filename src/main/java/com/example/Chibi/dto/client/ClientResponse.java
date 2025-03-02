@@ -1,5 +1,6 @@
 package com.example.Chibi.dto.client;
 
+import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.model.client.Cartao;
 import com.example.Chibi.model.client.Endereco;
 import lombok.AllArgsConstructor;
@@ -20,4 +21,13 @@ public class ClientResponse {
     private int idade;
     private Endereco endereco;
     private List<Cartao> cartao;
+
+
+    public ClientResponse(ClientModel model) {
+        this.nome = model.getNome();
+        this.email = model.getEmail();
+        this.idade = model.getIdade();
+        this.endereco = model.getEndereco();
+        this.cartao = model.getCartao();
+    }
 }

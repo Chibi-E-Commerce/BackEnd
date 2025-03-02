@@ -1,13 +1,12 @@
 package com.example.Chibi.controller;
 
 import com.example.Chibi.dto.ProductDto;
-import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/produto")
 @RestController
@@ -17,23 +16,23 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/list")
-    public List<ProductModel> getAll() {
-        return productService.findAll();
+    public List<ProductDto> getAll() {
+        return productService.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
     @GetMapping
-    public ProductModel getById(@RequestParam String id) {
-        return productService.findById(id);
+    public ProductDto getById(@RequestParam String id) {
+        return new ProductDto(productService.findById(id));
     }
 
     @PostMapping
-    public ProductModel create(@RequestBody ProductDto productDto) {
-        return productService.insert(productDto);
+    public ProductDto create(@RequestBody ProductDto productDto) {
+        return new ProductDto(productService.insert(productDto));
     }
 
     @PutMapping
-    public ProductModel update(@RequestParam String id, @RequestBody ProductDto productDto) {
-        return productService.update(id, productDto);
+    public ProductDto update(@RequestParam String id, @RequestBody ProductDto productDto) {
+        return new ProductDto(productService.update(id, productDto));
     }
 
     @DeleteMapping
