@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @RequestMapping("/produto")
 @RestController
 public class ProductController {
 
-    private final ProductService productService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/list")
     public List<ProductDto> getAll() {
