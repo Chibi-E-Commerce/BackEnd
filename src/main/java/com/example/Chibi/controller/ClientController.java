@@ -3,8 +3,6 @@ package com.example.Chibi.controller;
 import com.example.Chibi.dto.client.ClientRequest;
 import com.example.Chibi.dto.client.ClientResponse;
 import com.example.Chibi.service.ClientService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
