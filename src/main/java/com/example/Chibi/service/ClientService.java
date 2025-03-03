@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -42,5 +43,35 @@ public class ClientService {
 
     public void delete(String id) {
         clientRepository.deleteById(new ObjectId(id));
+    }
+
+    public ClientModel findByEmail(String email) {
+        return clientRepository.findByEmail(email);
+    }
+    public boolean isUserValid(String email, String senha) {
+        ClientModel clientModel = findByEmail(email);
+        if (clientModel == null) {
+            return false;
+        }
+        return clientModel.getSenha().equals(senha);
+    }
+
+    public boolean userExists(String cpf, String nome, String email) {
+        ClientModel clientByCpf = clientRepository.findByCpf(cpf);
+        ClientModel clientByEmail = clientRepository.findByEmail(email);
+        ClientModel clientByNome = clientRepository.findByNome(nome);
+        return clientByCpf != null || clientByEmail != null || clientByNome != null;
+    }
+
+
+    public ClientModel createUser(ClientRequest clientRequest) {
+        ClientModel clientModel = new ClientModel();
+        clientModel.setCpf(clientRequest.getCpf());
+        clientModel.setNome(clientRequest.getNome());
+        clientModel.setEmail(clientRequest.getEmail());
+        clientModel.setSenha(clientRequest.getSenha());
+        clientModel.setIdade(clientRequest.getIdade());
+
+        return clientRepository.save(clientModel);
     }
 }
