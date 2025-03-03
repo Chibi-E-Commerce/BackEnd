@@ -20,7 +20,6 @@ public class ClientRequest {
     private String cpf;
     private String email;
     private String senha;
-    private int idade;
     private Endereco endereco;
     private List<Cartao> cartao;
     private LocalDate dataNascimento;

@@ -3,14 +3,14 @@ package com.example.Chibi.service;
 import com.example.Chibi.dto.client.ClientRequest;
 import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.repository.ClientRepository;
-import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -56,22 +56,29 @@ public class ClientService {
         return clientModel.getSenha().equals(senha);
     }
 
-    public boolean userExists(String cpf, String nome, String email) {
-        ClientModel clientByCpf = clientRepository.findByCpf(cpf);
-        ClientModel clientByEmail = clientRepository.findByEmail(email);
-        ClientModel clientByNome = clientRepository.findByNome(nome);
-        return clientByCpf != null || clientByEmail != null || clientByNome != null;
-    }
-
-
     public ClientModel createUser(ClientRequest clientRequest) {
+        if (clientRepository.findByCpf(clientRequest.getCpf()) != null ||
+                clientRepository.findByEmail(clientRequest.getEmail()) != null) {
+            throw new RuntimeException("Usuário já cadastrado!");
+        }
+
+        LocalDate dataNascimento = clientRequest.getDataNascimento();
+        int idade = calcularIdade(dataNascimento);
+
         ClientModel clientModel = new ClientModel();
-        clientModel.setCpf(clientRequest.getCpf());
         clientModel.setNome(clientRequest.getNome());
         clientModel.setEmail(clientRequest.getEmail());
         clientModel.setSenha(clientRequest.getSenha());
-        clientModel.setIdade(clientRequest.getIdade());
+        clientModel.setCpf(clientRequest.getCpf());
+        clientModel.setIdade(idade);
 
         return clientRepository.save(clientModel);
+    }
+
+    private int calcularIdade(LocalDate dataNascimento) {
+        if (dataNascimento == null) {
+            throw new IllegalArgumentException("A Data de nascimento não pode ser nula paizão");
+        }
+        return Period.between(dataNascimento, LocalDate.now()).getYears();
     }
 }
