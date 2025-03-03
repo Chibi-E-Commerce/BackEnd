@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class ProductModel {
     private String descricao;
     private double preco;
     private String marca;
+
+    @Field("url_imagem")
     private String urlImagem;
     private double desconto;
     private List<String> categoria;
