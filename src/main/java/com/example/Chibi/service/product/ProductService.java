@@ -1,15 +1,15 @@
-package com.example.Chibi.service;
+package com.example.Chibi.service.product;
 
 import com.example.Chibi.dto.ProductDto;
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.repository.ProductRepository;
-import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class ProductService {
@@ -31,6 +31,11 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<ProductModel> search(List<Predicate<ProductModel>> filters) {
+        List<ProductModel> products = findAll();
+        return ProductFilter.applyFilters(products, filters);
+    }
+
     public ProductModel update(String id, ProductDto productDto) {
         ProductModel productModel = findById(id);
         if (productModel != null) {
@@ -43,4 +48,5 @@ public class ProductService {
     public void delete(String id) {
         productRepository.deleteById(new ObjectId(id));
     }
+
 }
