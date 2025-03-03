@@ -2,8 +2,10 @@ package com.example.Chibi.controller;
 
 import com.example.Chibi.dto.client.ClientRequest;
 import com.example.Chibi.dto.client.ClientResponse;
+import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,13 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientResponse create(@RequestBody ClientRequest clientRequest) {
-        return new ClientResponse(clientService.insert(clientRequest));
+    public ResponseEntity<?> createUser(@RequestBody ClientRequest clientRequest) {
+        try {
+            ClientModel novoUsuario = clientService.createUser(clientRequest);
+            return ResponseEntity.ok(novoUsuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping

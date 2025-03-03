@@ -19,7 +19,7 @@ public class ProductSearchDto implements Search<ProductModel> {
     public String pesquisa;
     public Double precoMin;
     public Double precoMax;
-    public Integer inDesconto; // 0 todos, 1 com desconto
+    public Integer inDesconto;
     public String categoria;
     public String marca;
 
