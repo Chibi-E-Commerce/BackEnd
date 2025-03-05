@@ -3,6 +3,7 @@ package com.example.Chibi.service.product;
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.util.FilterService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -23,8 +24,8 @@ public class ProductFilter {
         return (product) -> product.getDesconto() > 0;
     }
 
-    public static Predicate<ProductModel> categoria(String categoria) {
-        return (product) -> product.getCategoria().contains(categoria);
+    public static Predicate<ProductModel> categoria(List<String> categorias) {
+        return (product) -> new HashSet<>(product.getCategoria()).containsAll(categorias);
     }
 
     public static Predicate<ProductModel> marca(String marca) {

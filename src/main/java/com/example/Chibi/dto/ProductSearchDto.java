@@ -20,7 +20,7 @@ public class ProductSearchDto implements Search<ProductModel> {
     public Double precoMin;
     public Double precoMax;
     public Integer inDesconto;
-    public String categoria;
+    public List<String> categoria;
     public String marca;
 
     @Override
@@ -30,7 +30,7 @@ public class ProductSearchDto implements Search<ProductModel> {
         filterBuilder.add(ProductFilter.precoMax(precoMax), precoMax != 0);
         filterBuilder.add(ProductFilter.precoMin(precoMin), precoMin != 0);
         filterBuilder.add(ProductFilter.desconto(), inDesconto == 1);
-        filterBuilder.add(ProductFilter.categoria(categoria), !categoria.isBlank());
+        filterBuilder.add(ProductFilter.categoria(categoria), !categoria.isEmpty());
         filterBuilder.add(ProductFilter.marca(marca), !marca.isBlank());
 
         return filterBuilder.unwrap();
