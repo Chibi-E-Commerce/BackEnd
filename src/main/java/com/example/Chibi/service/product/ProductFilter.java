@@ -9,7 +9,12 @@ import java.util.function.Predicate;
 
 public class ProductFilter {
     public static Predicate<ProductModel> pesquisa(String nome) {
-        return (product) -> product.getNome().toLowerCase().trim().contains(nome.toLowerCase().trim());
+        return (product) -> {
+            boolean nameFilter = product.getNome().toLowerCase().trim().contains(nome.toLowerCase().trim());
+            boolean descriptionFilter = product.getDescricao().toLowerCase().trim().contains(nome.toLowerCase().trim());
+
+            return nameFilter || descriptionFilter;
+        };
     }
 
     public static Predicate<ProductModel> precoMin(double preco) {
@@ -29,7 +34,7 @@ public class ProductFilter {
     }
 
     public static Predicate<ProductModel> marca(String marca) {
-        return (product) -> product.getMarca().toLowerCase().trim().equals(marca.toLowerCase().trim());
+        return (product) -> product.getMarca().toLowerCase().trim().contains(marca.toLowerCase().trim());
     }
 
     public static List<ProductModel> applyFilters(List<ProductModel> models, List<Predicate<ProductModel>> filter_list) {
