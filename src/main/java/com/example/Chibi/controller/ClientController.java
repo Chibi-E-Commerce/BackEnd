@@ -23,15 +23,6 @@ public class ClientController {
         return clientService.findAll().stream().map(ClientResponse::new).collect(Collectors.toList());
     }
 
-    @GetMapping("/get-user")
-    public ResponseEntity<ClientResponse> getByEmail(@RequestParam String email) {
-        ClientModel cm = clientService.findByEmail(email);
-        if (cm == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(new ClientResponse(cm));
-    }
-
     @GetMapping
     public ClientResponse getById(@RequestParam String id) {
         return new ClientResponse(clientService.findById(id));
@@ -41,7 +32,7 @@ public class ClientController {
     public ResponseEntity<?> createUser(@RequestBody ClientRequest clientRequest) {
         try {
             ClientModel novoUsuario = clientService.createUser(clientRequest);
-            return ResponseEntity.ok(new ClientResponse(novoUsuario));
+            return ResponseEntity.ok(novoUsuario);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
