@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Pedido {
+public class ItemPedido {
 
     private ProductModel produto;
     private int quantidade;

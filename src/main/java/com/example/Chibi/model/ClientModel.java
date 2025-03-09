@@ -3,7 +3,7 @@ package com.example.Chibi.model;
 
 import com.example.Chibi.model.client.Cartao;
 import com.example.Chibi.model.client.Endereco;
-import com.example.Chibi.model.client.Pedido;
+import com.example.Chibi.model.client.ItemPedido;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +30,6 @@ public class ClientModel {
     private int idade;
     private Endereco endereco;
     private List<Cartao> cartao;
-    private List<Pedido> carrinho;
+    private List<ItemPedido> carrinho;
 
 }
