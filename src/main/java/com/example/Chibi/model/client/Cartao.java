@@ -20,6 +20,7 @@ public class Cartao {
     private double saldo;
     private double limite;
     private Validade validade;
+    private String bandeira;
 
     @Data
     @AllArgsConstructor
