@@ -32,8 +32,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public ClientModel update(String id, ClientRequest clientRequest) {
-        ClientModel clientModel = findById(id);
+    public ClientModel update(String email, ClientRequest clientRequest) {
+        ClientModel clientModel = findByEmail(email);
         if (clientModel != null) {
             BeanUtils.copyProperties(clientRequest, clientModel);
             return clientRepository.save(clientModel);
