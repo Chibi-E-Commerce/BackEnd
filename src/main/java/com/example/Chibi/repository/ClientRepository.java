@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface ClientRepository extends MongoRepository<ClientModel, ObjectId> {
     ClientModel findByEmail(String email);
     ClientModel findByCpf(String cpf);
-    ClientModel findByNome(String nome);
 }

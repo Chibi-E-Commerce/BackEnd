@@ -29,5 +29,4 @@ public class ProductModel {
     private String urlImagem;
     private double desconto;
     private List<String> categoria;
-
 }

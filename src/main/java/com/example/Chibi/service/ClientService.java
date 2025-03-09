@@ -35,8 +35,16 @@ public class ClientService {
     public ClientModel update(String email, ClientRequest clientRequest) {
         ClientModel clientModel = findByEmail(email);
         if (clientModel != null) {
-            BeanUtils.copyProperties(clientRequest, clientModel);
-            return clientRepository.save(clientModel);
+            ClientModel newClientModel = ClientModel.builder()
+                    .id(clientModel.getId())
+                    .cpf(clientModel.getCpf())
+                    .senha(clientModel.getSenha())
+                    .carrinho(clientRequest.getCarrinho())
+                    .endereco(clientRequest.getEndereco())
+                    .email(clientRequest.getEmail())
+                    .build();
+
+            return clientRepository.save(newClientModel);
         }
         return null;
     }
