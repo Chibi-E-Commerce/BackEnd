@@ -18,6 +18,7 @@ import java.util.List;
 public class ClientResponse {
 
     private String nome;
+    private String cpf;
     private String email;
     private int idade;
     private Endereco endereco;
@@ -27,6 +28,7 @@ public class ClientResponse {
 
     public ClientResponse(ClientModel model) {
         this.nome = model.getNome();
+        this.cpf = model.getCpf();
         this.email = model.getEmail();
         this.idade = model.getIdade();
         this.endereco = model.getEndereco();
