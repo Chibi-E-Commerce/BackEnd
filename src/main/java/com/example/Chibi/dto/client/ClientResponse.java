@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ClientResponse {
-
     private String nome;
     private String cpf;
     private String email;
@@ -25,7 +24,6 @@ public class ClientResponse {
     private List<Cartao> cartao;
     private List<ItemPedido> carrinho;
 
-
     public ClientResponse(ClientModel model) {
         this.nome = model.getNome();
         this.cpf = model.getCpf();
@@ -33,5 +31,6 @@ public class ClientResponse {
         this.idade = model.getIdade();
         this.endereco = model.getEndereco();
         this.cartao = model.getCartao();
+        this.carrinho = model.getCarrinho();
     }
 }
