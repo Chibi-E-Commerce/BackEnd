@@ -39,9 +39,10 @@ public class ClientService {
                     .id(clientModel.getId())
                     .cpf(clientModel.getCpf())
                     .senha(clientModel.getSenha())
-                    .carrinho(clientRequest.getCarrinho())
-                    .endereco(clientRequest.getEndereco())
-                    .email(clientRequest.getEmail())
+                    .carrinho(clientRequest.getCarrinho() != null ? clientRequest.getCarrinho() : null)
+                    .endereco(clientRequest.getEndereco() != null ? clientRequest.getEndereco() : null)
+                    .cartao(clientRequest.getCartao() != null ? clientRequest.getCartao() : null)
+                    .email(clientRequest.getEmail() != null ? clientRequest.getEmail() : null)
                     .build();
 
             return clientRepository.save(newClientModel);
