@@ -18,6 +18,8 @@ import java.util.List;
 @Builder
 public class ClientRequest {
 
+    @JsonIgnore
+    private Boolean adm;
     private String nome;
     private String cpf;
     private String email;
