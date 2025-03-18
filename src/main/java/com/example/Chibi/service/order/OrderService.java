@@ -1,0 +1,35 @@
+package com.example.Chibi.service.order;
+
+import com.example.Chibi.dto.OrderDto;
+import com.example.Chibi.model.OrderModel;
+import com.example.Chibi.repository.OrderRepository;
+import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class OrderService {
+    @Autowired
+    private OrderRepository orderRepository;
+
+    public OrderModel insert(OrderDto order) {
+        OrderModel orderModel = new OrderModel();
+        BeanUtils.copyProperties(order, orderModel);
+        return orderRepository.save(orderModel);
+    }
+
+    public OrderModel findById(String id) {
+        return orderRepository.findById(new ObjectId(id)).orElse(null);
+    }
+
+    public List<OrderModel> findAll() {
+        return orderRepository.findAll();
+    }
+
+    public void delete(String id) {
+        orderRepository.deleteById(new ObjectId(id));
+    }
+}
