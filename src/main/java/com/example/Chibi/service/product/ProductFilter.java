@@ -1,6 +1,7 @@
 package com.example.Chibi.service.product;
 
 import com.example.Chibi.model.ProductModel;
+import com.example.Chibi.service.Filter;
 import com.example.Chibi.service.util.FilterService;
 
 import java.util.HashSet;
@@ -38,12 +39,10 @@ public class ProductFilter {
     }
 
     public static List<ProductModel> applyFilters(List<ProductModel> models, List<Predicate<ProductModel>> filter_list) {
-        FilterService<ProductModel> filterService = new FilterService<>();
-        return filterService.filter(models, filter_list);
+        return Filter.applyFilters(models, filter_list);
     }
 
     public static boolean follows(List<ProductModel> models, List<Predicate<ProductModel>> filter_list) {
-        FilterService<ProductModel> filterService = new FilterService<>();
-        return filterService.follows(models, filter_list);
+        return Filter.follows(models, filter_list);
     }
 }

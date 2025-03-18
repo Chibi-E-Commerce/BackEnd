@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class OrderService {
@@ -24,6 +25,12 @@ public class OrderService {
     public OrderModel findById(String id) {
         return orderRepository.findById(new ObjectId(id)).orElse(null);
     }
+
+    public List<OrderModel> search(List<Predicate<OrderModel>> filters) {
+        List<OrderModel> orders = findAll();
+        return OrderFilter.applyFilters(orders, filters);
+    }
+
 
     public List<OrderModel> findAll() {
         return orderRepository.findAll();
