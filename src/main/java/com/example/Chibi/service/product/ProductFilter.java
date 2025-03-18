@@ -41,4 +41,9 @@ public class ProductFilter {
         FilterService<ProductModel> filterService = new FilterService<>();
         return filterService.filter(models, filter_list);
     }
+
+    public static boolean follows(List<ProductModel> models, List<Predicate<ProductModel>> filter_list) {
+        FilterService<ProductModel> filterService = new FilterService<>();
+        return filterService.follows(models, filter_list);
+    }
 }

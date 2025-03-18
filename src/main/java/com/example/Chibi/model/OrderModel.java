@@ -1,6 +1,6 @@
 package com.example.Chibi.model;
 
-import com.example.Chibi.model.client.Endereco;
+import com.example.Chibi.dto.ProductDto;
 import com.example.Chibi.model.client.ItemPedido;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +21,24 @@ import java.util.List;
 public class OrderModel {
     @Id
     private ObjectId id;
-    private String nome;
-    private String cpf;
     private Double total;
     private LocalDate data;
-    private Endereco endereco;
-    private List<ItemPedido> produtos;
+    private ClientModel client;
+    private List<ItemPedido> itens;
+
+    public List<ProductModel> getProductList() {
+        return this.itens.stream().map(x -> {
+            ProductDto dto = x.getProduto();
+
+            ProductModel p = new ProductModel();
+            p.setMarca(dto.getMarca());
+            p.setDescricao(dto.getDescricao());
+            p.setPreco(dto.getPreco());
+            p.setCategoria(dto.getCategoria());
+            p.setUrlImagem(dto.getUrlImagem());
+            p.setNome(dto.getNome());
+
+            return p;
+        }).toList();
+    }
 }

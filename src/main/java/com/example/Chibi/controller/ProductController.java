@@ -1,13 +1,12 @@
 package com.example.Chibi.controller;
 
 import com.example.Chibi.dto.ProductDto;
-import com.example.Chibi.dto.ProductSearchDto;
+import com.example.Chibi.dto.search.ProductSearchDto;
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
