@@ -16,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ClientResponse {
+
+    private Boolean adm;
     private String nome;
     private String cpf;
     private String email;
