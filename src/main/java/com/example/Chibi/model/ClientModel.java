@@ -23,6 +23,7 @@ public class ClientModel {
 
     @Id
     private ObjectId id;
+    private Boolean admin;
     private String nome;
     private String cpf;
     private String email;
