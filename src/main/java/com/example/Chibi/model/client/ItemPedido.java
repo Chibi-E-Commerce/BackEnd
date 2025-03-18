@@ -1,7 +1,6 @@
 package com.example.Chibi.model.client;
 
 import com.example.Chibi.dto.ProductDto;
-import com.example.Chibi.model.ProductModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

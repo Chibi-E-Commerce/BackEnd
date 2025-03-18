@@ -1,4 +1,4 @@
-package com.example.Chibi.dto;
+package com.example.Chibi.dto.search;
 
 import java.util.List;
 import java.util.function.Predicate;
