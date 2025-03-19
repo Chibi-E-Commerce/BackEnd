@@ -1,6 +1,8 @@
 package com.example.Chibi.dto;
 
-import com.example.Chibi.model.client.Endereco;
+import com.example.Chibi.dto.client.ClientResponse;
+import com.example.Chibi.model.OrderClientModel;
+import com.example.Chibi.model.OrderModel;
 import com.example.Chibi.model.client.ItemPedido;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +17,15 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class OrderDto {
-    private String nome;
-    private String cpf;
     private Double total;
     private LocalDate data;
-    private Endereco endereco;
-    private List<ItemPedido> pedido;
+    private List<ItemPedido> itens;
+    private OrderClientModel client;
+
+    public OrderDto(OrderModel orderModel) {
+        this.total = orderModel.getTotal();
+        this.data = orderModel.getData();
+        this.itens = orderModel.getItens();
+        this.client = new OrderClientModel(orderModel.getClient());
+    }
 }
