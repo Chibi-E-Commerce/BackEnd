@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class ClientResponse {
 
-    private Boolean adm;
+    private boolean adm;
     private String nome;
     private String cpf;
     private String email;
@@ -28,6 +28,7 @@ public class ClientResponse {
 
     public ClientResponse(ClientModel model) {
         this.nome = model.getNome();
+        this.adm = model.getAdm();
         this.cpf = model.getCpf();
         this.email = model.getEmail();
         this.idade = model.getIdade();

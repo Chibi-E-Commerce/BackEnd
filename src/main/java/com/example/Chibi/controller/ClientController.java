@@ -49,8 +49,8 @@ public class ClientController {
     }
 
     @PutMapping
-    public ClientResponse update(@RequestParam String email, @RequestBody ClientRequest clientRequest) {
-        return new ClientResponse(clientService.update(email, clientRequest));
+    public ClientResponse update(@RequestBody ClientRequest clientRequest) {
+        return new ClientResponse(clientService.update(clientRequest));
     }
 
     @DeleteMapping

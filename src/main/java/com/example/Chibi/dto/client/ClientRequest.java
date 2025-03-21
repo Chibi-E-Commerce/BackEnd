@@ -28,5 +28,6 @@ public class ClientRequest {
     private Endereco endereco;
     private List<Cartao> cartao;
     private List<ItemPedido> carrinho;
+    @JsonIgnore
     private LocalDate dataNascimento;
 }
