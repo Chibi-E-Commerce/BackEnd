@@ -13,4 +13,8 @@ public class FilterService<T> {
         }
         return iterator.collect(Collectors.toList());
     }
+
+    public boolean follows(List<T> models, List<Predicate<T>> filterList) {
+        return models.stream().allMatch(e -> filterList.stream().allMatch(filter -> filter.test(e)));
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.Chibi.dto;
+package com.example.Chibi.dto.search;
 
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.product.ProductFilter;
