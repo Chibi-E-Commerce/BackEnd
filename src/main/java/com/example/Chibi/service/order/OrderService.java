@@ -39,8 +39,4 @@ public class OrderService {
     public List<OrderModel> findAll() {
         return orderRepository.findAll();
     }
-
-    public void delete(String id) {
-        orderRepository.deleteById(new ObjectId(id));
-    }
 }
