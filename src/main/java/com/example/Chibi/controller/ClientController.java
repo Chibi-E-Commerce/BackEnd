@@ -1,7 +1,8 @@
 package com.example.Chibi.controller;
 
-import com.example.Chibi.dto.client.ClientRequest;
+import com.example.Chibi.dto.client.request.ClientRequest;
 import com.example.Chibi.dto.client.ClientResponse;
+import com.example.Chibi.dto.client.request.ClientRequestCreate;
 import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody ClientRequest clientRequest) {
+    public ResponseEntity<?> createUser(@RequestBody ClientRequestCreate clientRequest) {
         try {
             ClientModel novoUsuario = clientService.createUser(clientRequest);
             return ResponseEntity.ok(new ClientResponse(novoUsuario));
