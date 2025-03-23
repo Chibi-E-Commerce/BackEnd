@@ -5,7 +5,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -57,7 +57,7 @@ public class PdfService {
             for (byte b : hash) {
                 hexString.append(String.format("%02x", b));
             }
-            return hexString.toString().substring(0, 32);
+            return hexString.substring(0, 32);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Erro ao gerar hash", e);
         }
