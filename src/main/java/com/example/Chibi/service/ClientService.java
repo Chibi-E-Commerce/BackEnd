@@ -1,6 +1,7 @@
 package com.example.Chibi.service;
 
-import com.example.Chibi.dto.client.ClientRequest;
+import com.example.Chibi.dto.client.request.ClientRequest;
+import com.example.Chibi.dto.client.request.ClientRequestCreate;
 import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.repository.ClientRepository;
 import org.bson.types.ObjectId;
@@ -31,13 +32,14 @@ public class ClientService {
             ClientModel newClientModel = ClientModel.builder()
                     .id(clientModel.getId())
                     .adm(clientModel.getAdm())
+                    .nome(clientModel.getNome())
                     .cpf(clientModel.getCpf())
                     .senha(clientModel.getSenha())
                     .carrinho(clientRequest.getCarrinho() != null ? clientRequest.getCarrinho() : null)
                     .endereco(clientRequest.getEndereco() != null ? clientRequest.getEndereco() : null)
                     .cartao(clientRequest.getCartao() != null ? clientRequest.getCartao() : null)
                     .email(clientRequest.getEmail() != null ? clientRequest.getEmail() : null)
-                    .idade(clientModel.getIdade())
+                    .dataNascimento(clientModel.getDataNascimento())
                     .build();
 
             return clientRepository.save(newClientModel);
@@ -60,29 +62,21 @@ public class ClientService {
         return clientModel.getSenha().equals(senha);
     }
 
-    public ClientModel createUser(ClientRequest clientRequest) {
+    public ClientModel createUser(ClientRequestCreate clientRequest) {
         if (clientRepository.findByCpf(clientRequest.getCpf()) != null ||
                 clientRepository.findByEmail(clientRequest.getEmail()) != null) {
             throw new RuntimeException("Usuário já cadastrado!");
         }
 
-        LocalDate dataNascimento = clientRequest.getDataNascimento();
-        int idade = calcularIdade(dataNascimento);
-
         ClientModel clientModel = new ClientModel();
+        clientModel.setAdm(clientRequest.getAdm());
         clientModel.setNome(clientRequest.getNome());
         clientModel.setEmail(clientRequest.getEmail());
         clientModel.setSenha(clientRequest.getSenha());
         clientModel.setCpf(clientRequest.getCpf());
-        clientModel.setIdade(idade);
+        clientModel.setDataNascimento(clientRequest.getDataNascimento());
 
         return clientRepository.save(clientModel);
     }
 
-    private int calcularIdade(LocalDate dataNascimento) {
-        if (dataNascimento == null) {
-            throw new IllegalArgumentException("A Data de nascimento não pode ser nula paizão");
-        }
-        return Period.between(dataNascimento, LocalDate.now()).getYears();
-    }
 }

@@ -13,6 +13,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -30,9 +31,18 @@ public class ClientModel {
     private String cpf;
     private String email;
     private String senha;
-    private int idade;
+    @Field("data_nascimento")
+    private LocalDate dataNascimento;
     private Endereco endereco;
     private List<Cartao> cartao;
     private List<ItemPedido> carrinho;
+
+    public ClientModel(OrderClientModel orderClientModel) {
+        this.id = orderClientModel.getId();
+        this.email = orderClientModel.getEmail();
+        this.endereco = orderClientModel.getEndereco();
+        this.nome = orderClientModel.getNome();
+        this.cpf = orderClientModel.getCpf();
+    }
 
 }

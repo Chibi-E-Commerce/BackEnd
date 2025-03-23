@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -18,20 +20,22 @@ import java.util.List;
 public class ClientResponse {
 
     private boolean adm;
+    private ObjectId id;
     private String nome;
     private String cpf;
     private String email;
-    private int idade;
+    private LocalDate dataNascimento;
     private Endereco endereco;
     private List<Cartao> cartao;
     private List<ItemPedido> carrinho;
 
     public ClientResponse(ClientModel model) {
+        this.id = model.getId();
         this.nome = model.getNome();
         this.adm = model.getAdm();
         this.cpf = model.getCpf();
         this.email = model.getEmail();
-        this.idade = model.getIdade();
+        this.dataNascimento = model.getDataNascimento();
         this.endereco = model.getEndereco();
         this.cartao = model.getCartao();
         this.carrinho = model.getCarrinho();

@@ -1,10 +1,10 @@
 package com.example.Chibi.service.order;
 
 import com.example.Chibi.dto.OrderDto;
+import com.example.Chibi.model.ClientModel;
 import com.example.Chibi.model.OrderModel;
 import com.example.Chibi.repository.OrderRepository;
 import org.bson.types.ObjectId;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,12 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public OrderModel insert(OrderDto order) {
-        OrderModel orderModel = new OrderModel();
-        BeanUtils.copyProperties(order, orderModel);
+        OrderModel orderModel = OrderModel.builder()
+                .total(order.getTotal())
+                .itens(order.getItens())
+                .client(new ClientModel(order.getClient()))
+                .data(order.getData())
+                .build();
         return orderRepository.save(orderModel);
     }
 
