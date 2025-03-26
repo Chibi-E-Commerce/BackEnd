@@ -15,11 +15,14 @@ public class ExtratoService {
         this.orderService = orderService;
     }
 
-    public byte[] gerarExtrato(String pedidoId, ExtratoFileFormat formato) {
+    public byte[] gerarExtrato(String pedidoId, ExtratoFileFormat formato) throws Exception {
         OrderModel pedido = orderService.findById(pedidoId);
 
         Extrato e = new Extrato(pedido, formato);
-
-        return e.gerar();
+        try {
+            return e.gerar();
+        } catch (Exception e1) {
+            throw new Exception("Erro ao gerar extrato tipo " + formato + ": " + e1.getMessage());
+        }
     }
 }

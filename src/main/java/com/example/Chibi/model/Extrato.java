@@ -1,21 +1,25 @@
 package com.example.Chibi.model;
 
+import com.example.Chibi.dto.ProductDto;
+import com.example.Chibi.model.client.ItemPedido;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public record Extrato(
     OrderModel pedido,
     ExtratoFileFormat format
 ) {
 
-    public byte[] gerar() throws RuntimeException {
+    public byte[] gerar() throws Exception {
 
         switch (format) {
             case PDF -> {
@@ -32,7 +36,7 @@ public record Extrato(
         return new Cell().add(new Paragraph(label + ": " + value).setPadding(5).setTextAlignment(TextAlignment.LEFT)).setBorder(Border.NO_BORDER);
     }
 
-    private byte[] geraPdf() {
+    private byte[] geraPdf() throws RuntimeException, IOException {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             PdfWriter writer = new PdfWriter(out);
             PdfDocument pdf = new PdfDocument(writer);
@@ -57,32 +61,73 @@ public record Extrato(
             document.add(createLabelValue("Para", "CHIBI LOJA OFICIAL"));
             document.add(createLabelValue("De", cliente.getNome()));
             document.add(createLabelValue("CPF", cliente.getCpf()));
+
+            Table productTable = new Table(new float[]{3, 1, 2}); // Column widths
+            productTable.setWidth(500); // Set total width in points
+
+            document.add(new Paragraph("Itens")
+                    .setBold()
+                    .setFontSize(14));
+
+            productTable.addHeaderCell(new Cell().add(new Paragraph("Nome")));
+            productTable.addHeaderCell(new Cell().add(new Paragraph("Quantidade")));
+            productTable.addHeaderCell(new Cell().add(new Paragraph("Preço")));
+
+
+            for (ItemPedido item : pedido.getItens()) {
+                ProductDto dto = item.getProduto();
+
+                productTable.addCell(new Cell().add(new Paragraph(dto.getNome())));
+                productTable.addCell(new Cell().add(new Paragraph(String.valueOf(item.getQuantidade()))));
+                productTable.addCell(new Cell().add(new Paragraph(String.format("R$ %.2f", dto.getPreco()))));
+            }
+
+            document.add(productTable);
+
+            document.add(createLabelValue("Total: ", String.format("R$ %.2f", pedido.getTotal()))
+                    .setBold()
+                    .setFontSize(12));
             document.add(createLabelValue("ID da transação", String.valueOf(pedido.getId())));
+
 
             document.close();
             return out.toByteArray();
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar PDF", e);
         }
     }
 
     private byte[] geraTxt() {
-        try {
-            String dataAtual = new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
-            ClientModel client = pedido.getClient();
+        String dataAtual = new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        ClientModel client = pedido.getClient();
 
-            String txtContent = "Comprovante de Pagamento\n" +
-                    "========================\n" +
-                    "Data: " + dataAtual + "\n\n" +
-                    "Valor: R$ " + String.format("%.2f", pedido.getTotal()) + "\n" +
-                    "Para: CHIBI LOJA OFICIAL\n" +
-                    "De: " + client.getNome() + "\n" +
-                    "CPF: " + client.getCpf() + "\n" +
-                    "ID da transação: " + pedido.getId() + "\n";
+        StringBuilder doc = new StringBuilder();
 
-            return txtContent.getBytes();
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao gerar TXT", e);
+        doc.append("Comprovante de Pagamento\n");
+        doc.append("====================================================\n");
+        doc.append("Data: ").append(dataAtual).append("\n\n");
+        doc.append("Valor: R$ ").append(String.format("%.2f", pedido.getTotal())).append("\n");
+        doc.append("Para: CHIBI LOJA OFICIAL\n");
+        doc.append("De: ").append(client.getNome()).append("\n");
+        doc.append("CPF: ").append(client.getCpf()).append("\n");
+        doc.append("\n");
+        doc.append("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*\n");
+        doc.append("|                  Itens da compra                 |\n");
+        doc.append("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*\n");
+
+        doc.append("Número | ").append(String.format("%-20s", "Nome do Produto")).append(" | ").append(String.format("%-10s", "Quantidade")).append(" | ").append(String.format("%-10s", "Preço")).append("\n");
+        for (int i = 0; i < pedido.getItens().size(); i++) {
+            ItemPedido itemPedido = pedido.getItens().get(i);
+            ProductDto dto = itemPedido.getProduto();
+            doc.append(String.format("#%5d | %-20s | %-10d | %-10s%n", i + 1, dto.getNome(), itemPedido.getQuantidade(), String.format("R$ %.2f", dto.getPreco())));
         }
+        doc.append("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*\n");
+        doc.append("\n\n");
+        doc.append("Total: R$ ").append(String.format("%.2f", pedido.getTotal())).append("\n");
+
+        doc.append("ID da transação: ").append(pedido.getId()).append("\n");
+        doc.append("====================================================\n");
+
+        String finalText = doc.toString();
+
+        return finalText.getBytes();
     }
 }
