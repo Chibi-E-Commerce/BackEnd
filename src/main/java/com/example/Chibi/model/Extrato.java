@@ -84,11 +84,11 @@ public record Extrato(
 
             document.add(productTable);
 
-            document.add(createLabelValue("Total: ", String.format("R$ %.2f", pedido.getTotal()))
+            document.add(createLabelValue("Total de itens", String.valueOf(pedido.getItens().size())));
+            document.add(createLabelValue("Total pago", String.format("R$ %.2f", pedido.getTotal()))
                     .setBold()
                     .setFontSize(12));
             document.add(createLabelValue("ID da transação", String.valueOf(pedido.getId())));
-
 
             document.close();
             return out.toByteArray();
@@ -120,6 +120,8 @@ public record Extrato(
             doc.append(String.format("#%5d | %-24s | %-3d | %-13s%n", i + 1, dto.getNome(), itemPedido.getQuantidade(), String.format("R$ %.2f", dto.getPreco())));
         }
         doc.append("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*\n");
+        doc.append("Total de itens: ").append(pedido.getItens().size()).append("\n");
+
         doc.append("\n\n");
         doc.append("Total: R$ ").append(String.format("%.2f", pedido.getTotal())).append("\n");
 
