@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Document(collection = "produto")
-public class ProductModel {
+public class ProductModel implements Comparable<ProductModel> {
 
     @Id
     private ObjectId id;
@@ -29,4 +29,9 @@ public class ProductModel {
     private String urlImagem;
     private double desconto;
     private List<String> categoria;
+
+    @Override
+    public int compareTo(ProductModel o) {
+        return this.nome.compareTo(o.getNome());
+    }
 }

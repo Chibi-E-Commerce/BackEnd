@@ -3,13 +3,15 @@ package com.example.Chibi.controller;
 import com.example.Chibi.dto.client.request.ClientRequest;
 import com.example.Chibi.dto.client.ClientResponse;
 import com.example.Chibi.dto.client.request.ClientRequestCreate;
+import com.example.Chibi.dto.search.ClientSearchDto;
 import com.example.Chibi.model.ClientModel;
-import com.example.Chibi.service.ClientService;
+import com.example.Chibi.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,6 +41,19 @@ public class ClientController {
 
     }
 
+    @PostMapping("/search")
+    public List<ClientResponse> search(@RequestBody ClientSearchDto clientSearchDto) {
+        List<Predicate<ClientModel>> predicates = clientSearchDto.breakdown();
+        List<ClientModel> clientModels = clientService.search(predicates);
+
+        return clientModels.stream().map(ClientResponse::new).toList();
+    }
+
+    @GetMapping("/sort")
+    public List<ClientResponse> getClientSorted() {
+        return clientService.sortAll().stream().map(ClientResponse::new).collect(Collectors.toList());
+    }
+
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody ClientRequestCreate clientRequest) {
         try {
@@ -55,7 +70,7 @@ public class ClientController {
     }
 
     @DeleteMapping
-    public void delete(@RequestParam String id) {
-        clientService.delete(id);
+    public ResponseEntity<Boolean> delete(@RequestParam String email) {
+        return clientService.delete(email) ? ResponseEntity.status(200).body(true) : ResponseEntity.status(404).body(false);
     }
 }
