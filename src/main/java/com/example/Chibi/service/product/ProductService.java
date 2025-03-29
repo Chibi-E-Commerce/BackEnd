@@ -8,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -23,6 +25,10 @@ public class ProductService {
         return productRepository.save(productModel);
     }
 
+    public ProductModel findByNome(String nome) {
+        return productRepository.findByNome(nome).orElse(null);
+    }
+
     public ProductModel findById(String id) {
         return productRepository.findById(new ObjectId(id)).orElse(null);
     }
@@ -31,9 +37,28 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<ProductModel> sortAll() {
+        List<ProductModel> productModels = findAll();
+        Collections.sort(productModels);
+        return productModels;
+    }
+
     public List<ProductModel> search(List<Predicate<ProductModel>> filters) {
         List<ProductModel> products = findAll();
         return ProductFilter.applyFilters(products, filters);
+    }
+
+    public List<ProductModel> searchRestricted(List<Predicate<ProductModel>> filters) {
+        List<ProductModel> products = findAll();
+        List<ProductModel> productsFiltered = new ArrayList<>();
+        for (Predicate<ProductModel> filter : filters) {
+            productsFiltered = products.stream().filter(filter).toList();
+            if (!productsFiltered.isEmpty()) {
+                return productsFiltered;
+            }
+        }
+        return productsFiltered;
+
     }
 
     public ProductModel update(String id, ProductDto productDto) {
@@ -45,8 +70,13 @@ public class ProductService {
         return null;
     }
 
-    public void delete(String id) {
-        productRepository.deleteById(new ObjectId(id));
+    public boolean delete(String nome) {
+        ProductModel productModel = findByNome(nome);
+        if (productModel != null) {
+            productRepository.delete(productModel);
+            return true;
+        }
+        return false;
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.Chibi.dto.search.ProductSearchDto;
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public class ProductController {
         return productService.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
+    @GetMapping("/sort")
+    public List<ProductDto> sortAll() {
+        return productService.sortAll().stream().map(ProductDto::new).collect(Collectors.toList());
+    }
+
     @PostMapping("/search")
     public List<ProductDto> search(@RequestBody ProductSearchDto productSearchDto) {
         List<Predicate<ProductModel>> predicates = productSearchDto.breakdown();
@@ -30,9 +36,11 @@ public class ProductController {
         return products.stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
-    @GetMapping
-    public ProductDto getById(@RequestParam String id) {
-        return new ProductDto(productService.findById(id));
+    @PostMapping("/search/restricted")
+    public List<ProductDto> searchRestricted(@RequestBody ProductSearchDto productSearchDto) {
+        List<Predicate<ProductModel>> predicates = productSearchDto.breakdown();
+        List<ProductModel> products = productService.searchRestricted(predicates);
+        return products.stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -46,7 +54,7 @@ public class ProductController {
     }
 
     @DeleteMapping
-    public void delete(@RequestParam String id) {
-        productService.delete(id);
+    public ResponseEntity<Boolean> delete(@RequestParam String nome) {
+        return productService.delete(nome) ? ResponseEntity.status(200).body(true) : ResponseEntity.status(404).body(false);
     }
 }

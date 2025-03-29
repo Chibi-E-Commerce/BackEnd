@@ -2,7 +2,6 @@ package com.example.Chibi.service.product;
 
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.Filter;
-import com.example.Chibi.service.util.FilterService;
 
 import java.util.HashSet;
 import java.util.List;

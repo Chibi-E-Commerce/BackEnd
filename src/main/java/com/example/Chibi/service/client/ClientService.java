@@ -1,14 +1,16 @@
-package com.example.Chibi.service;
+package com.example.Chibi.service.client;
 
 import com.example.Chibi.dto.client.request.ClientRequest;
 import com.example.Chibi.dto.client.request.ClientRequestCreate;
 import com.example.Chibi.model.ClientModel;
+import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.repository.ClientRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Service
 public class ClientService {
@@ -22,6 +24,25 @@ public class ClientService {
 
     public List<ClientModel> findAll() {
         return clientRepository.findAll();
+    }
+
+    public List<ClientModel> sortAll() {
+        List<ClientModel> clientModels = clientRepository.findAll();
+        Collections.sort(clientModels);
+        return clientModels;
+    }
+
+    public List<ClientModel> search(List<Predicate<ClientModel>> filters) {
+        List<ClientModel> clients = findAll();
+        List<ClientModel> clientsFiltered = new ArrayList<>();
+        for (Predicate<ClientModel> filter : filters) {
+            clientsFiltered = clients.stream().filter(filter).toList();
+            if (!clientsFiltered.isEmpty()) {
+                return clientsFiltered;
+            }
+        }
+        return clientsFiltered;
+
     }
 
     public ClientModel update(ClientRequest clientRequest) {
@@ -45,8 +66,13 @@ public class ClientService {
         return null;
     }
 
-    public void delete(String id) {
-        clientRepository.deleteById(new ObjectId(id));
+    public boolean delete(String email) {
+        ClientModel clientModel = findByEmail(email);
+        if (clientModel != null) {
+            clientRepository.delete(clientModel);
+            return true;
+        }
+        return false;
     }
 
     public ClientModel findByEmail(String email) {

@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Document(collection = "cliente")
-public class ClientModel {
+public class ClientModel implements Comparable<ClientModel> {
 
     @Id
     private ObjectId id;
@@ -45,4 +45,13 @@ public class ClientModel {
         this.cpf = orderClientModel.getCpf();
     }
 
+    @Override
+    public int compareTo(ClientModel o) {
+        if (this.getNome() == null) {
+            return 1;
+        }else if (o.getNome() == null) {
+            return -1;
+        }
+        return this.nome.compareTo(o.getNome());
+    }
 }
