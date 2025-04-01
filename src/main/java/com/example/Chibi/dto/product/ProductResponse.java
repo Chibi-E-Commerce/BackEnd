@@ -1,4 +1,4 @@
-package com.example.Chibi.dto;
+package com.example.Chibi.dto.product;
 
 import com.example.Chibi.model.ProductModel;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDto {
+public class ProductResponse {
 
+    private String id;
     private String nome;
     private String descricao;
     private double preco;
@@ -22,7 +23,8 @@ public class ProductDto {
     private double desconto;
     private List<String> categoria;
 
-    public ProductDto(ProductModel model){
+    public ProductResponse(ProductModel model){
+        this.id = model.getId().toString();
         this.nome = model.getNome();
         this.descricao = model.getDescricao();
         this.preco = model.getPreco();

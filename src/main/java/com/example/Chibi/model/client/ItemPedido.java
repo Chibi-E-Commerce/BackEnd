@@ -1,6 +1,6 @@
 package com.example.Chibi.model.client;
 
-import com.example.Chibi.dto.ProductDto;
+import com.example.Chibi.dto.product.ProductRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ItemPedido {
 
-    private ProductDto produto;
+    private ProductRequest produto;
     private int quantidade;
 }

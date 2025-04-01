@@ -1,6 +1,6 @@
 package com.example.Chibi.model;
 
-import com.example.Chibi.dto.ProductDto;
+import com.example.Chibi.dto.product.ProductRequest;
 import com.example.Chibi.model.client.ItemPedido;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +28,7 @@ public class OrderModel {
 
     public List<ProductModel> getProductList() {
         return this.itens.stream().map(x -> {
-            ProductDto dto = x.getProduto();
+            ProductRequest dto = x.getProduto();
 
             ProductModel p = new ProductModel();
             p.setMarca(dto.getMarca());
