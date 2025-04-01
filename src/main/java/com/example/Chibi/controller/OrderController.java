@@ -40,7 +40,7 @@ public class OrderController {
     public ResponseEntity<?> createOrder(@RequestBody OrderDto order) {
         try {
             OrderModel novoPedido = orderService.insert(order);
-                return ResponseEntity.ok(new OrderDto(novoPedido));
+                return ResponseEntity.ok(novoPedido.getId().toHexString());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
