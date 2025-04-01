@@ -1,6 +1,7 @@
 package com.example.Chibi.controller;
 
-import com.example.Chibi.dto.ProductDto;
+import com.example.Chibi.dto.product.ProductRequest;
+import com.example.Chibi.dto.product.ProductResponse;
 import com.example.Chibi.dto.search.ProductSearchDto;
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.service.product.ProductService;
@@ -20,41 +21,46 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/list")
-    public List<ProductDto> getAll() {
-        return productService.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
+    public List<ProductResponse> getAll() {
+        return productService.findAll().stream().map(ProductResponse::new).toList();
+    }
+
+    @GetMapping
+    public ProductResponse getById(@RequestParam String id) {
+        return new ProductResponse(productService.findById(id));
     }
 
     @GetMapping("/sort")
-    public List<ProductDto> sortAll() {
-        return productService.sortAll().stream().map(ProductDto::new).collect(Collectors.toList());
+    public List<ProductResponse> sortAll() {
+        return productService.sortAll().stream().map(ProductResponse::new).collect(Collectors.toList());
     }
 
     @PostMapping("/search")
-    public List<ProductDto> search(@RequestBody ProductSearchDto productSearchDto) {
+    public List<ProductResponse> search(@RequestBody ProductSearchDto productSearchDto) {
         List<Predicate<ProductModel>> predicates = productSearchDto.breakdown();
         List<ProductModel> products = productService.search(predicates);
-        return products.stream().map(ProductDto::new).collect(Collectors.toList());
+        return products.stream().map(ProductResponse::new).collect(Collectors.toList());
     }
 
     @PostMapping("/search/restricted")
-    public List<ProductDto> searchRestricted(@RequestBody ProductSearchDto productSearchDto) {
+    public List<ProductResponse> searchRestricted(@RequestBody ProductSearchDto productSearchDto) {
         List<Predicate<ProductModel>> predicates = productSearchDto.breakdown();
         List<ProductModel> products = productService.searchRestricted(predicates);
-        return products.stream().map(ProductDto::new).collect(Collectors.toList());
+        return products.stream().map(ProductResponse::new).collect(Collectors.toList());
     }
 
     @PostMapping
-    public ProductDto create(@RequestBody ProductDto productDto) {
-        return new ProductDto(productService.insert(productDto));
+    public ProductResponse create(@RequestBody ProductRequest productDto) {
+        return new ProductResponse(productService.insert(productDto));
     }
 
     @PutMapping
-    public ProductDto update(@RequestParam String id, @RequestBody ProductDto productDto) {
-        return new ProductDto(productService.update(id, productDto));
+    public ProductResponse update(@RequestParam String id,@RequestBody ProductRequest productDto) {
+        return new ProductResponse(productService.update(id,productDto));
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> delete(@RequestParam String nome) {
-        return productService.delete(nome) ? ResponseEntity.status(200).body(true) : ResponseEntity.status(404).body(false);
+    public ResponseEntity<Boolean> delete(@RequestParam String id) {
+        return productService.delete(id) ? ResponseEntity.status(200).body(true) : ResponseEntity.status(404).body(false);
     }
 }

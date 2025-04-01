@@ -1,6 +1,6 @@
 package com.example.Chibi.service.product;
 
-import com.example.Chibi.dto.ProductDto;
+import com.example.Chibi.dto.product.ProductRequest;
 import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.repository.ProductRepository;
 import org.bson.types.ObjectId;
@@ -19,14 +19,10 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductModel insert(ProductDto productDto) {
+    public ProductModel insert(ProductRequest productDto) {
         ProductModel productModel = new ProductModel();
         BeanUtils.copyProperties(productDto, productModel);
         return productRepository.save(productModel);
-    }
-
-    public ProductModel findByNome(String nome) {
-        return productRepository.findByNome(nome).orElse(null);
     }
 
     public ProductModel findById(String id) {
@@ -61,7 +57,7 @@ public class ProductService {
 
     }
 
-    public ProductModel update(String id, ProductDto productDto) {
+    public ProductModel update(String id, ProductRequest productDto) {
         ProductModel productModel = findById(id);
         if (productModel != null) {
             BeanUtils.copyProperties(productDto, productModel);
@@ -70,8 +66,8 @@ public class ProductService {
         return null;
     }
 
-    public boolean delete(String nome) {
-        ProductModel productModel = findByNome(nome);
+    public boolean delete(String id) {
+        ProductModel productModel = findById(id);
         if (productModel != null) {
             productRepository.delete(productModel);
             return true;
