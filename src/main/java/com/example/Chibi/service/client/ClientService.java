@@ -31,7 +31,6 @@ public class ClientService {
         Collections.sort(clientModels);
         return clientModels;
     }
-
     public List<ClientModel> search(List<Predicate<ClientModel>> filters) {
         List<ClientModel> clients = findAll();
         List<ClientModel> clientsFiltered = new ArrayList<>();
@@ -101,6 +100,16 @@ public class ClientService {
         clientModel.setDataNascimento(clientRequest.getDataNascimento());
 
         return clientRepository.save(clientModel);
+    }
+
+    public boolean updatePassword(String email, String novaSenha) {
+        ClientModel cliente = clientRepository.findByEmail(email);
+        if (cliente != null) {
+            cliente.setSenha(novaSenha);
+            clientRepository.save(cliente);
+            return true;
+        }
+        return false;
     }
 
 }
