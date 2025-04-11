@@ -47,7 +47,7 @@ public class ClientModel implements Comparable<ClientModel> {
     }
 
     @Override
-    public int compareTo(@NotNull ClientModel o) {
+    public int compareTo(ClientModel o) {
         if (this.getNome() == null) {
             return 1;
         }else if (o.getNome() == null) {
