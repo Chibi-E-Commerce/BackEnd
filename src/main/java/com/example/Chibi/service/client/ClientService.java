@@ -44,20 +44,20 @@ public class ClientService {
 
     }
 
-    public ClientModel update(ClientRequest clientRequest) {
-        ClientModel clientModel = findByEmail(clientRequest.getEmail());
+    public ClientModel update(String id, ClientRequest clientRequest) {
+        ClientModel clientModel = findById(id);
         if (clientModel != null) {
             ClientModel newClientModel = ClientModel.builder()
                     .id(clientModel.getId())
-                    .adm(clientModel.getAdm())
-                    .nome(clientModel.getNome())
+                    .adm(clientRequest.getAdm())
+                    .nome(clientRequest.getNome().isEmpty() ? clientModel.getNome() : clientRequest.getNome())
                     .cpf(clientModel.getCpf())
                     .senha(clientModel.getSenha())
-                    .carrinho(clientRequest.getCarrinho() != null ? clientRequest.getCarrinho() : null)
+                    .carrinho(clientRequest.getCarrinho() != null ? clientRequest.getCarrinho() : clientModel.getCarrinho() != null && !clientModel.getCarrinho().isEmpty() ? clientModel.getCarrinho() : null)
                     .endereco(clientRequest.getEndereco() != null ? clientRequest.getEndereco() : null)
-                    .cartao(clientRequest.getCartao() != null ? clientRequest.getCartao() : null)
-                    .email(clientRequest.getEmail() != null ? clientRequest.getEmail() : null)
-                    .dataNascimento(clientModel.getDataNascimento())
+                    .cartao(clientRequest.getCartao() != null && !clientRequest.getCartao().isEmpty() ? clientRequest.getCartao() : clientModel.getCartao() != null ? clientModel.getCartao() : null)
+                    .email(!clientRequest.getEmail().isEmpty() ? clientRequest.getEmail() : clientModel.getEmail())
+                    .dataNascimento(clientRequest.getDataNascimento() == null ? clientModel.getDataNascimento() : clientRequest.getDataNascimento() )
                     .build();
 
             return clientRepository.save(newClientModel);

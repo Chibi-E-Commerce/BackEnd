@@ -56,17 +56,13 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody ClientRequestCreate clientRequest) {
-        try {
-            ClientModel novoUsuario = clientService.createUser(clientRequest);
-            return ResponseEntity.ok(new ClientResponse(novoUsuario));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        ClientModel novoUsuario = clientService.createUser(clientRequest);
+        return ResponseEntity.ok(new ClientResponse(novoUsuario));
     }
 
     @PutMapping
-    public ClientResponse update(@RequestBody ClientRequest clientRequest) {
-        return new ClientResponse(clientService.update(clientRequest));
+    public ClientResponse update(@RequestParam String id,@RequestBody ClientRequest clientRequest) {
+        return new ClientResponse(clientService.update(id, clientRequest));
     }
 
     @DeleteMapping

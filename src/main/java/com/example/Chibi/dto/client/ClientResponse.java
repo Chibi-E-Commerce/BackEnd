@@ -20,7 +20,7 @@ import java.util.List;
 public class ClientResponse {
 
     private boolean adm;
-    private ObjectId id;
+    private String id;
     private String nome;
     private String cpf;
     private String email;
@@ -30,7 +30,7 @@ public class ClientResponse {
     private List<ItemPedido> carrinho;
 
     public ClientResponse(ClientModel model) {
-        this.id = model.getId();
+        this.id = model.getId().toString();
         this.nome = model.getNome();
         this.adm = model.getAdm();
         this.cpf = model.getCpf();

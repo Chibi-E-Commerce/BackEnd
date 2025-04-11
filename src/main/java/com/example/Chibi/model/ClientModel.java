@@ -54,4 +54,6 @@ public class ClientModel implements Comparable<ClientModel> {
         }
         return this.nome.compareTo(o.getNome());
     }
+
+
 }
