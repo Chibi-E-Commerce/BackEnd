@@ -1,6 +1,6 @@
 package com.example.Chibi.model;
 
-import com.example.Chibi.dto.product.ProductRequest;
+import com.example.Chibi.dto.product.ProductResponse;
 import com.example.Chibi.model.client.ItemPedido;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -75,7 +75,7 @@ public record Extrato(
 
 
             for (ItemPedido item : pedido.getItens()) {
-                ProductRequest dto = item.getProduto();
+                ProductResponse dto = item.getProduto();
 
                 productTable.addCell(new Cell().add(new Paragraph(dto.getNome())));
                 productTable.addCell(new Cell().add(new Paragraph(String.valueOf(item.getQuantidade()))));
@@ -116,7 +116,7 @@ public record Extrato(
         doc.append("Número | ").append(String.format("%-24s", "Nome do Produto")).append(" | ").append(String.format("%-3s", "Qnt")).append(" | ").append(String.format("%-13s", "Preço")).append("\n");
         for (int i = 0; i < pedido.getItens().size(); i++) {
             ItemPedido itemPedido = pedido.getItens().get(i);
-            ProductRequest dto = itemPedido.getProduto();
+            ProductResponse dto = itemPedido.getProduto();
             doc.append(String.format("#%5d | %-24s | %-3d | %-13s%n", i + 1, dto.getNome(), itemPedido.getQuantidade(), String.format("R$ %.2f", dto.getPreco())));
         }
         doc.append("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*\n");

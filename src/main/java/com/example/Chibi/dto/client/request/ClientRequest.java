@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -16,9 +17,10 @@ import java.util.List;
 @Builder
 public class ClientRequest {
 
+    private Boolean adm;
     private String nome;
-    private String cpf;
     private String email;
+    private LocalDate dataNascimento;
     private Endereco endereco;
     private List<Cartao> cartao;
     private List<ItemPedido> carrinho;
