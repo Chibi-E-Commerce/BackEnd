@@ -3,13 +3,14 @@ package com.example.Chibi.service.client;
 import com.example.Chibi.dto.client.request.ClientRequest;
 import com.example.Chibi.dto.client.request.ClientRequestCreate;
 import com.example.Chibi.model.ClientModel;
-import com.example.Chibi.model.ProductModel;
 import com.example.Chibi.repository.ClientRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 
 @Service

@@ -4,6 +4,7 @@ package com.example.Chibi.model;
 import com.example.Chibi.model.client.Cartao;
 import com.example.Chibi.model.client.Endereco;
 import com.example.Chibi.model.client.ItemPedido;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,7 +47,7 @@ public class ClientModel implements Comparable<ClientModel> {
     }
 
     @Override
-    public int compareTo(ClientModel o) {
+    public int compareTo(@NotNull ClientModel o) {
         if (this.getNome() == null) {
             return 1;
         }else if (o.getNome() == null) {
