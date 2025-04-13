@@ -20,7 +20,7 @@ public class OrderController {
 
     @GetMapping("/list")
     public List<OrderDto> getAll() {
-        return orderService.findAll().stream().map(OrderDto::new).collect(Collectors.toList());
+        return orderService.sortAll().stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     @GetMapping

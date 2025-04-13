@@ -8,6 +8,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -38,5 +40,11 @@ public class OrderService {
 
     public List<OrderModel> findAll() {
         return orderRepository.findAll();
+    }
+
+    public List<OrderModel> sortAll() {
+        List<OrderModel> orders = findAll();
+        Collections.sort(orders);
+        return orders;
     }
 }

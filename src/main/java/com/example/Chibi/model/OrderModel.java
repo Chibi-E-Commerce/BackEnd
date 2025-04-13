@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Document(collection = "pedido")
-public class OrderModel {
+public class OrderModel implements Comparable<OrderModel> {
     @Id
     private ObjectId id;
     private Double total;
@@ -40,5 +40,12 @@ public class OrderModel {
 
             return p;
         }).toList();
+    }
+
+    public int compareTo(OrderModel o) {
+        if (o == null){
+            return -1;
+        }
+        return this.getData().isAfter(o.getData()) ? -1 : this.getData().isEqual(o.getData()) ? 0 : 1;
     }
 }
