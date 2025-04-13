@@ -29,7 +29,6 @@ public class AlterarSenhaService {
 
     public boolean validarCodigo(String email, String codigo) {
         if (email == null || codigo == null) {
-            System.out.println("Email ou código nulo.");
             return false;
         }
 
@@ -41,6 +40,4 @@ public class AlterarSenhaService {
             return false;
         }
     }
-
-
 }
